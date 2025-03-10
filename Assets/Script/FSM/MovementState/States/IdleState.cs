@@ -19,6 +19,18 @@ public class IdleState : MovementBaseState
                 ExitState(movement, movement.Jump);
             }
         }
+        if (Input.GetMouseButtonDown(1))
+        {
+            ExitState(movement, movement.Blocking);
+        }
+        if (Input.GetMouseButtonDown(3))
+        {
+            ExitState(movement, movement.MeleeAttack1);
+        }
+        if (Input.GetMouseButtonDown(0))
+        {
+            ExitState(movement, movement.BowShot);
+        }
     }
     public override void ExitState(MovementStateManager movement, MovementBaseState state)
     {

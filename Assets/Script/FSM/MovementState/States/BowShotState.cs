@@ -1,19 +1,13 @@
 using UnityEngine;
-public class JumpState : MovementBaseState
+public class BowShotState : MovementBaseState
 {
     public override void EnterState(MovementStateManager movement)
     {
-        movement.animator.Play("Jump");
-        movement.velocity.y = movement.jumpForce;
+        movement.animator.Play("BowShot");
     }
     public override void UpdateState(MovementStateManager movement)
     {
-        movement.Move();
-        if (movement.IsGrounded() && movement.isEndJump)
-        {
-            ExitState(movement, movement.Idle);
-        }
-        else if (movement.IsGrounded() && movement.isEndJump)
+        if (Input.GetMouseButtonUp(0))
         {
             ExitState(movement, movement.Idle);
         }

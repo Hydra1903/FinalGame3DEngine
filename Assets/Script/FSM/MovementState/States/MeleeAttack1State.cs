@@ -1,19 +1,13 @@
 using UnityEngine;
-public class JumpState : MovementBaseState
+public class MeleeAttack1State : MovementBaseState
 {
     public override void EnterState(MovementStateManager movement)
     {
-        movement.animator.Play("Jump");
-        movement.velocity.y = movement.jumpForce;
+        movement.animator.Play("MeleeAttack1");
     }
     public override void UpdateState(MovementStateManager movement)
     {
-        movement.Move();
-        if (movement.IsGrounded() && movement.isEndJump)
-        {
-            ExitState(movement, movement.Idle);
-        }
-        else if (movement.IsGrounded() && movement.isEndJump)
+        if (movement.animator.GetCurrentAnimatorStateInfo(0).IsName("MeleeAttack1") && movement.animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.95f)
         {
             ExitState(movement, movement.Idle);
         }

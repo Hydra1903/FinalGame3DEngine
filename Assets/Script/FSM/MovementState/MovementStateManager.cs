@@ -28,6 +28,9 @@ public class MovementStateManager : MonoBehaviour
     public RunState Run = new RunState();
     public JumpState Jump = new JumpState();
     public FallState Fall = new FallState();
+    public BlockingState Blocking = new BlockingState();
+    public MeleeAttack1State MeleeAttack1 = new MeleeAttack1State();
+    public BowShotState BowShot = new BowShotState();
 
     void Start()
     {
