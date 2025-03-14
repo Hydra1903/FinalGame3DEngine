@@ -1,4 +1,6 @@
+using Unity.Android.Gradle.Manifest;
 using UnityEngine;
+
 
 public class AnimalAI : MonoBehaviour
 {
@@ -6,12 +8,18 @@ public class AnimalAI : MonoBehaviour
     public float walkRadius = 10f;
     public float walkSpeed = 1.5f;
     public float runSpeed = 3f;
-    public LayerMask groundLayer; // Xác ð?nh layer c?a m?t ð?t
+    
 
+    public float gravity = -9.81f;
+    public bool isGrounded;
     private Vector3 targetPosition;
     private bool isMoving = false;
     private float currentSpeed;
 
+    public Vector3 velocity;
+    public float groundYOffset;
+    public LayerMask groundMask;
+    public Vector3 spherePos;
     private void Start()
     {
         if (animator == null) animator = GetComponent<Animator>();
@@ -24,6 +32,8 @@ public class AnimalAI : MonoBehaviour
         {
             MoveToTarget();
         }
+        isGrounded = IsGrounded();
+        Gravity();
     }
 
     private void RandomAction()
@@ -65,7 +75,7 @@ public class AnimalAI : MonoBehaviour
     {
         Vector3 randomDirection = new Vector3(Random.Range(-walkRadius, walkRadius), 0, Random.Range(-walkRadius, walkRadius));
         targetPosition = transform.position + randomDirection;
-        targetPosition.y = GetGroundY(targetPosition); // C?p nh?t Y theo m?t ð?t
+        
         currentSpeed = isRunning ? runSpeed : walkSpeed;
         isMoving = true;
     }
@@ -73,7 +83,7 @@ public class AnimalAI : MonoBehaviour
     private void MoveToTarget()
     {
         Vector3 newPosition = Vector3.MoveTowards(transform.position, targetPosition, currentSpeed * Time.deltaTime);
-        newPosition.y = GetGroundY(newPosition); // C?p nh?t Y theo m?t ð?t
+       
         transform.position = newPosition;
         transform.LookAt(new Vector3(targetPosition.x, transform.position.y, targetPosition.z)); // Nh?n v? hý?ng di chuy?n
 
@@ -84,16 +94,24 @@ public class AnimalAI : MonoBehaviour
         }
     }
 
-    private float GetGroundY(Vector3 position)
+    
+    public bool IsGrounded()
     {
-        RaycastHit hit;
-        if (Physics.Raycast(position + Vector3.up * 2f, Vector3.down, out hit, 10f, groundLayer))
-        {
-            return hit.point.y;
-        }
-        return position.y; // Gi? nguyên n?u không có m?t ð?t
+        spherePos = new Vector3(transform.position.x, transform.position.y - groundYOffset, transform.position.z);
+        if (Physics.CheckSphere(spherePos, 0.1f, groundMask)) return true;
+        return false;
     }
-
+    void Gravity()
+    {
+        if (!IsGrounded())
+        {
+            velocity.y += gravity * Time.deltaTime;
+        }
+        else if (velocity.y < 0)
+        {
+            velocity.y = -2;
+        }
+    }
     private System.Collections.IEnumerator RotateSmoothly(float angle)
     {
         float duration = 0.5f;
