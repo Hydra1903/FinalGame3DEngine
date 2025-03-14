@@ -23,6 +23,7 @@ public class MovementStateManager : MonoBehaviour
     public float jumpForce = 5f;
     public bool isEndJump;
 
+    // KHỞI TẠO TRẠNG THÁI
     MovementBaseState currentState;
     public IdleState Idle = new IdleState();
     public RunState Run = new RunState();
@@ -36,7 +37,11 @@ public class MovementStateManager : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         SwitchState(Idle);
+        // ẨN CHUỘT TRONG QUÁ TRÌNH CHƠI
+        Cursor.lockState = CursorLockMode.Locked; 
+        Cursor.visible = false;
     }
+    // SET TRẠNG THÁI
     public void SwitchState(MovementBaseState state)
     {
         currentState = state;
@@ -50,8 +55,10 @@ public class MovementStateManager : MonoBehaviour
         vertical = Input.GetAxis("Vertical");
         Rotate();
         Gravity();
+        // DÒNG GỌI UPDATE CỦA TỪNG TRẠNG THÁI
         currentState.UpdateState(this);
     }
+    // HÀM DI CHUYỂN NHÂN VẬT
     public void Move()
     {
         Vector3 forward = cameraTransform.forward;
@@ -61,6 +68,7 @@ public class MovementStateManager : MonoBehaviour
         moveDirection = (forward * vertical + right * horizontal).normalized * moveSpeed;
         controller.Move(moveDirection * Time.deltaTime);
     }
+    // HÀM XOAY NHÂN VẬT KHI DI CHUYỂN
     void Rotate()
     {
         if (moveDirection.magnitude > 0.1f)
@@ -69,12 +77,22 @@ public class MovementStateManager : MonoBehaviour
             transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
         }
     }
+    // HÀM XOAY NHÂN VẬT HƯỚNG THEO CAMERA (SỬ DỤNG TRONG TRẠNG THÁI BLOCKING, SHOTBOW, MELEEATTACK,... )
+    public void Rotate2()
+    {
+        Vector3 cameraForward = cameraTransform.forward;
+        cameraForward.y = 0; 
+        transform.forward = cameraForward;
+    }
+
+    // KIỂM TRA NHÂN VẬT CHẠM MẶT ĐẤT
     public bool IsGrounded()
     {
         spherePos = new Vector3(transform.position.x, transform.position.y - groundYOffset, transform.position.z);
         if (Physics.CheckSphere(spherePos,0.1f, groundMask)) return true;
         return false;
     }
+    // ÁP DỤNG TRỌNG LỰC
     void Gravity()
     {
         if (!IsGrounded())
@@ -87,12 +105,7 @@ public class MovementStateManager : MonoBehaviour
         }
         controller.Move(velocity * Time.deltaTime);
     }
-    void OnDrawGizmos()
-    {
-        Vector3 spherePos = transform.position + Vector3.down * groundYOffset;
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(spherePos, 0.1f);
-    }
+    // KIỂM TRA QUÁ TRÌNH NHẢY
     void OFFJump()
     {
         isEndJump = true;

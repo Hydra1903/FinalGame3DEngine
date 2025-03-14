@@ -11,6 +11,7 @@ public class BlockingState : MovementBaseState
         {
             ExitState(movement, movement.Idle);
         }
+        movement.Rotate2();
     }
     public override void ExitState(MovementStateManager movement, MovementBaseState state)
     {

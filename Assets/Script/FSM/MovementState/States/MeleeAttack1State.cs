@@ -9,8 +9,16 @@ public class MeleeAttack1State : MovementBaseState
     {
         if (movement.animator.GetCurrentAnimatorStateInfo(0).IsName("MeleeAttack1") && movement.animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.95f)
         {
-            ExitState(movement, movement.Idle);
+            if (Input.GetMouseButton(0))
+            {
+                ExitState(movement, movement.MeleeAttack1);
+            }
+            else
+            {
+                ExitState(movement, movement.Idle);
+            }
         }
+        movement.Rotate2();
     }
     public override void ExitState(MovementStateManager movement, MovementBaseState state)
     {
