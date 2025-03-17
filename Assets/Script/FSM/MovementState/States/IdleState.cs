@@ -23,11 +23,11 @@ public class IdleState : MovementBaseState
         {
             ExitState(movement, movement.Blocking);
         }
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(3))
         {
             ExitState(movement, movement.MeleeAttack1);
         }
-        if (Input.GetMouseButtonDown(3))
+        if (Input.GetMouseButtonDown(0))
         {
             ExitState(movement, movement.BowShot);
         }
