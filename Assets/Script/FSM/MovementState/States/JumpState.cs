@@ -4,7 +4,6 @@ public class JumpState : MovementBaseState
     public override void EnterState(MovementStateManager movement)
     {
         movement.animator.Play("Jump");
-        Debug.Log("jump");
         movement.velocity.y = movement.jumpForce;
     }
     public override void UpdateState(MovementStateManager movement)
