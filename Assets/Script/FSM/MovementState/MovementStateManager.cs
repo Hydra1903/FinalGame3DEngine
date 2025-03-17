@@ -1,6 +1,8 @@
 ﻿using Unity.Android.Gradle.Manifest;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using TMPro;
 
 public class MovementStateManager : MonoBehaviour
 {
@@ -33,6 +35,10 @@ public class MovementStateManager : MonoBehaviour
     public MeleeAttack1State MeleeAttack1 = new MeleeAttack1State();
     public BowShotState BowShot = new BowShotState();
 
+    public Text fpsText;
+    private float deltaTime = 0.0f;
+    private float fps = 0.0f;
+
     void Start()
     {
         animator = GetComponent<Animator>();
@@ -40,12 +46,20 @@ public class MovementStateManager : MonoBehaviour
         // ẨN CHUỘT TRONG QUÁ TRÌNH CHƠI
         Cursor.lockState = CursorLockMode.Locked; 
         Cursor.visible = false;
+
+
+        InvokeRepeating(nameof(UpdateFPSDisplay), 0, 0.5f);
     }
     // SET TRẠNG THÁI
     public void SwitchState(MovementBaseState state)
     {
         currentState = state;
         currentState.EnterState(this);
+    }
+
+    void UpdateFPSDisplay()
+    {
+            fpsText.text = $"{fps:0.} FPS";
     }
 
     void Update()
@@ -57,6 +71,9 @@ public class MovementStateManager : MonoBehaviour
         Gravity();
         // DÒNG GỌI UPDATE CỦA TỪNG TRẠNG THÁI
         currentState.UpdateState(this);
+
+        deltaTime += (Time.deltaTime - deltaTime) * 0.1f;
+        fps = 1.0f / deltaTime;
     }
     // HÀM DI CHUYỂN NHÂN VẬT
     public void Move()
