@@ -26,10 +26,12 @@ public class MovementStateManager : MonoBehaviour
     public bool isEndJump;
 
     // KHỞI TẠO TRẠNG THÁI
-    MovementBaseState currentState;
+    public MovementBaseState currentState;
     public IdleState Idle = new IdleState();
     public RunState Run = new RunState();
+    public WalkState Walk = new WalkState();
     public JumpState Jump = new JumpState();
+    public JumpRuningState JumpRuning = new JumpRuningState();
     public FallState Fall = new FallState();
     public BlockingState Blocking = new BlockingState();
     public MeleeAttack1State MeleeAttack1 = new MeleeAttack1State();
@@ -39,9 +41,12 @@ public class MovementStateManager : MonoBehaviour
     private float deltaTime = 0.0f;
     private float fps = 0.0f;
 
+    public StatsManager statsManager;
+
     void Start()
     {
         animator = GetComponent<Animator>();
+        statsManager = FindAnyObjectByType<StatsManager>();
         SwitchState(Idle);
         // ẨN CHUỘT TRONG QUÁ TRÌNH CHƠI
         Cursor.lockState = CursorLockMode.Locked; 
@@ -76,13 +81,13 @@ public class MovementStateManager : MonoBehaviour
         fps = 1.0f / deltaTime;
     }
     // HÀM DI CHUYỂN NHÂN VẬT
-    public void Move()
+    public void Move(float Speed)
     {
         Vector3 forward = cameraTransform.forward;
         Vector3 right = cameraTransform.right;
         forward.y = 0;
         right.y = 0;
-        moveDirection = (forward * vertical + right * horizontal).normalized * moveSpeed;
+        moveDirection = (forward * vertical + right * horizontal).normalized * moveSpeed * Speed;
         controller.Move(moveDirection * Time.deltaTime);
     }
     // HÀM XOAY NHÂN VẬT KHI DI CHUYỂN
