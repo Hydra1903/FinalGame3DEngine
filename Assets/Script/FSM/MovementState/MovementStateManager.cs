@@ -52,7 +52,7 @@ public class MovementStateManager : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked; 
         Cursor.visible = false;
 
-
+        // CẬP NHẬT FPS SAU 0.5S
         InvokeRepeating(nameof(UpdateFPSDisplay), 0, 0.5f);
     }
     // SET TRẠNG THÁI
@@ -61,7 +61,7 @@ public class MovementStateManager : MonoBehaviour
         currentState = state;
         currentState.EnterState(this);
     }
-
+    // HIỂN THỊ FPS LÊN TEXT
     void UpdateFPSDisplay()
     {
             fpsText.text = $"{fps:0.} FPS";
@@ -77,6 +77,7 @@ public class MovementStateManager : MonoBehaviour
         // DÒNG GỌI UPDATE CỦA TỪNG TRẠNG THÁI
         currentState.UpdateState(this);
 
+        // TÍNH TOÁN FPS
         deltaTime += (Time.deltaTime - deltaTime) * 0.1f;
         fps = 1.0f / deltaTime;
     }

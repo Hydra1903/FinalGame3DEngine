@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.TextCore.Text;
 
 public class StatsManager : MonoBehaviour
@@ -21,9 +21,9 @@ public class StatsManager : MonoBehaviour
         {
             ManaRecovery();
         }
-
     }
 
+    // HÀM TỰ ĐỘNG HỒI NĂNG LƯỢNG KHI KHÔNG CHẠY
     private void ManaRecovery()
     {
         if (Character1.mana <= Character1.maxMana)
@@ -35,6 +35,8 @@ public class StatsManager : MonoBehaviour
             Character1.mana = Character1.maxMana;
         }
     }
+
+    // HÀM SỬ DỤNG NĂNG LUỌNG KHI NHÂN VẬT CHẠY
     private void ManaUsing()
     {
         if (Character1.mana > 0)
