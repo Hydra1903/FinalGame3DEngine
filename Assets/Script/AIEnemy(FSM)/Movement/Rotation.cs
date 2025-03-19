@@ -1,18 +1,18 @@
 using UnityEngine;
 
-public class Rotation : MovementBaseStateAI
+public class Rotation : MovementAIState
 {
-    public override void EnterStateAI(MovementStateManager movement)
+    public override void EnterStateAI(AiMoventd movement)
     {
         movement.animator.Play("GoatSheep_turn_90_R");
         Debug.Log("GoatSheep is turning");
     }
-    public override void UpdateStateAI(MovementStateManager movement)
+    public override void UpdateStateAI(AiMoventd movement)
     {
         
     }
-    public override void ExitStateAI(MovementStateManager movement, MovementBaseState state)
+    public override void ExitStateAI(AiMoventd movement, MovementAIState state)
     {
-        movement.SwitchState(state);
+        movement.SwitchStateAI(state);
     }
 }

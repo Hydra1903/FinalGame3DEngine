@@ -1,17 +1,32 @@
 using UnityEngine;
 using UnityEngine.AI;
-
-public class AiMoventd : MonoBehaviour
+using Unity.Android.Gradle.Manifest;
+using UnityEngine.EventSystems;
+public class AiMoventd : MonoBehaviour 
 {
     [SerializeField] NavMeshAgent agent;
     [SerializeField] Transform target;
-
+    public Animator animator;
     float _attackRange = 0.5f;
     float _chaseRange = 20.0f;
     Vector3 initialPosition;
+
+    public bool isGrounded;
+    public float horizontal;
+    public float vertical;
+
+
+    MovementAIState currentStateAI;
+    public Idle Idle = new Idle();
+    public Run Run = new Run();
+    public Walk Walk = new Walk();
+    
+        
     void Start()
     {
         initialPosition = transform.position;
+        animator = GetComponent<Animator>();
+        SwitchStateAI(Idle);
     }
 
     // Update is called once per frame
@@ -24,7 +39,7 @@ public class AiMoventd : MonoBehaviour
         }
         else if(distance > _attackRange)
         {
-            ChaseTarget();
+            RunAway();
         }
         else
         {
@@ -36,12 +51,17 @@ public class AiMoventd : MonoBehaviour
     {
         agent.SetDestination(initialPosition);
     }
-    void ChaseTarget()
+    void RunAway()
     {
-        agent.SetDestination(target.position);
+        //agent.SetDestination(target.position);
     }
     void AttackTarget()
     {
 
+    }
+    public void SwitchStateAI(MovementAIState state)
+    {
+        currentStateAI = state;
+        currentStateAI.EnterStateAI(this);
     }
 }   
