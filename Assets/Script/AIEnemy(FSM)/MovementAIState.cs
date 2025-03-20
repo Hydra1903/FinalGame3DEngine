@@ -1,9 +1,9 @@
 
     public abstract class MovementAIState
     {
-        public abstract void EnterStateAI(AiMoventd movement);
-        public abstract void UpdateStateAI(AiMoventd movement);
-        public abstract void ExitStateAI(AiMoventd movement, MovementAIState state);
+        public abstract void EnterStateAI(AiMovement movement);
+        public abstract void UpdateStateAI(AiMovement movement);
+        public abstract void ExitStateAI(AiMovement movement, MovementAIState state);
     }
 
 
