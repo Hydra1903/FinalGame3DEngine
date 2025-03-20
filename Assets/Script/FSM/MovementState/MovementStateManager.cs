@@ -137,5 +137,4 @@ public class MovementStateManager : MonoBehaviour
     {
         isEndJump = false;
     }
-
 }
