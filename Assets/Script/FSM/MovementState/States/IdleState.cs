@@ -4,13 +4,19 @@ public class IdleState : MovementBaseState
     public override void EnterState(MovementStateManager movement)
     {
         movement.animator.Play("Idle");
-        Debug.Log("idle");
     }
     public override void UpdateState(MovementStateManager movement)
     {
         if (movement.horizontal != 0 || movement.vertical != 0)
         {
-            ExitState(movement, movement.Run);
+            if (Input.GetKeyDown(KeyCode.LeftShift) && movement.statsManager.Character1.mana > 0)
+            {
+                ExitState(movement, movement.Run);
+            }
+            else
+            {
+                ExitState(movement, movement.Walk);
+            }
         }
         if (movement.IsGrounded())
         {
@@ -23,11 +29,11 @@ public class IdleState : MovementBaseState
         {
             ExitState(movement, movement.Blocking);
         }
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(3))
         {
             ExitState(movement, movement.MeleeAttack1);
         }
-        if (Input.GetMouseButtonDown(3))
+        if (Input.GetMouseButtonDown(0))
         {
             ExitState(movement, movement.BowShot);
         }

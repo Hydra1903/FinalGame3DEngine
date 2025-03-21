@@ -1,6 +1,8 @@
 ﻿using Unity.Android.Gradle.Manifest;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using TMPro;
 
 public class MovementStateManager : MonoBehaviour
 {
@@ -24,28 +26,45 @@ public class MovementStateManager : MonoBehaviour
     public bool isEndJump;
 
     // KHỞI TẠO TRẠNG THÁI
-    MovementBaseState currentState;
+    public MovementBaseState currentState;
     public IdleState Idle = new IdleState();
     public RunState Run = new RunState();
+    public WalkState Walk = new WalkState();
     public JumpState Jump = new JumpState();
+    public JumpRuningState JumpRuning = new JumpRuningState();
     public FallState Fall = new FallState();
     public BlockingState Blocking = new BlockingState();
     public MeleeAttack1State MeleeAttack1 = new MeleeAttack1State();
     public BowShotState BowShot = new BowShotState();
 
+    public Text fpsText;
+    private float deltaTime = 0.0f;
+    private float fps = 0.0f;
+
+    public StatsManager statsManager;
+
     void Start()
     {
         animator = GetComponent<Animator>();
+        statsManager = FindAnyObjectByType<StatsManager>();
         SwitchState(Idle);
         // ẨN CHUỘT TRONG QUÁ TRÌNH CHƠI
         Cursor.lockState = CursorLockMode.Locked; 
         Cursor.visible = false;
+
+        // CẬP NHẬT FPS SAU 0.5S
+        InvokeRepeating(nameof(UpdateFPSDisplay), 0, 0.5f);
     }
     // SET TRẠNG THÁI
     public void SwitchState(MovementBaseState state)
     {
         currentState = state;
         currentState.EnterState(this);
+    }
+    // HIỂN THỊ FPS LÊN TEXT
+    void UpdateFPSDisplay()
+    {
+            fpsText.text = $"{fps:0.} FPS";
     }
 
     void Update()
@@ -57,15 +76,19 @@ public class MovementStateManager : MonoBehaviour
         Gravity();
         // DÒNG GỌI UPDATE CỦA TỪNG TRẠNG THÁI
         currentState.UpdateState(this);
+
+        // TÍNH TOÁN FPS
+        deltaTime += (Time.deltaTime - deltaTime) * 0.1f;
+        fps = 1.0f / deltaTime;
     }
     // HÀM DI CHUYỂN NHÂN VẬT
-    public void Move()
+    public void Move(float Speed)
     {
         Vector3 forward = cameraTransform.forward;
         Vector3 right = cameraTransform.right;
         forward.y = 0;
         right.y = 0;
-        moveDirection = (forward * vertical + right * horizontal).normalized * moveSpeed;
+        moveDirection = (forward * vertical + right * horizontal).normalized * moveSpeed * Speed;
         controller.Move(moveDirection * Time.deltaTime);
     }
     // HÀM XOAY NHÂN VẬT KHI DI CHUYỂN
@@ -114,5 +137,4 @@ public class MovementStateManager : MonoBehaviour
     {
         isEndJump = false;
     }
-
 }

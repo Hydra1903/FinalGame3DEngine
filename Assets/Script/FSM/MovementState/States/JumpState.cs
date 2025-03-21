@@ -8,7 +8,7 @@ public class JumpState : MovementBaseState
     }
     public override void UpdateState(MovementStateManager movement)
     {
-        movement.Move();
+        movement.Move(1);
         if (movement.IsGrounded() && movement.isEndJump)
         {
             ExitState(movement, movement.Idle);
