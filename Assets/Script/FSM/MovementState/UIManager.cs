@@ -8,7 +8,8 @@ public class UIManager : MonoBehaviour
     public Image healthBar;
     public Image manaBar;
     public Text manaNumber;
-    public Outline outlineBow;
+    public GameObject highlightBow;
+    public GameObject highlightSword;
     void Start()
     {
         statsManager = FindAnyObjectByType<StatsManager>();

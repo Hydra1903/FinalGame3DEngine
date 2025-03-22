@@ -42,11 +42,13 @@ public class MovementStateManager : MonoBehaviour
     private float fps = 0.0f;
 
     public StatsManager statsManager;
+    public WeaponState weaponState;
 
     void Start()
     {
         animator = GetComponent<Animator>();
         statsManager = FindAnyObjectByType<StatsManager>();
+        weaponState = FindAnyObjectByType<WeaponState>();
         SwitchState(Idle);
         // ẨN CHUỘT TRONG QUÁ TRÌNH CHƠI
         Cursor.lockState = CursorLockMode.Locked; 

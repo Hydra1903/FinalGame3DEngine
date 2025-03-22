@@ -27,13 +27,20 @@ public class RunState : MovementBaseState
         {
             ExitState(movement, movement.Blocking);
         }
-        if (Input.GetMouseButtonDown(3))
-        {
-            ExitState(movement, movement.MeleeAttack1);
-        }
         if (Input.GetMouseButtonDown(0))
         {
-            ExitState(movement, movement.BowShot);
+            if (movement.weaponState.currentState == Weaponstate.Bow)
+            {
+                ExitState(movement, movement.BowShot);
+            }
+            else if (movement.weaponState.currentState == Weaponstate.Sword)
+            {
+                ExitState(movement, movement.MeleeAttack1);
+            }
+            else
+            {
+                Debug.Log("Khong co trang thai");
+            }
         }
     }
     public override void ExitState(MovementStateManager movement, MovementBaseState state)
