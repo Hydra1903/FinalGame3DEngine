@@ -28,6 +28,6 @@ public class BowShotState : MovementBaseState
     public override void ExitState(MovementStateManager movement, MovementBaseState state)
     {
         movement.SwitchState(state);
-        movement.orbitalTransposer.VerticalAxis.Range = new Vector2(10f, 75f);
+        movement.orbitalTransposer.VerticalAxis.Range = new Vector2(10f, 60f);
     }
 }
