@@ -1,57 +1,85 @@
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace Ursaanimation.CubicFarmAnimals
 {
-    public class AnimationController : MonoBehaviour
+    public class AnimalAIController : MonoBehaviour
     {
         public Animator animator;
+        public NavMeshAgent agent;
         public string walkForwardAnimation = "walk_forward";
-        public string walkBackwardAnimation = "walk_backwards";
+        public string idleAnimation = "idle";
         public string runForwardAnimation = "run_forward";
-        public string turn90LAnimation = "turn_90_L";
-        public string turn90RAnimation = "turn_90_R";
-        public string trotAnimation = "trot_forward";
-        public string sittostandAnimation = "sit_to_stand";
-        public string standtositAnimation = "stand_to_sit";
+        public float detectionRadius = 5f;
+        public float runDuration = 3f;
+        public float stopDistance = 15f; // Kho?ng cách t?i ða trý?c khi d?ng
+        public Transform player;
+        public LayerMask obstacleMask;
+
+        private bool isRunningAway = false;
+        private float runTimer = 0f;
 
         void Start()
         {
             animator = GetComponent<Animator>();
+            agent = GetComponent<NavMeshAgent>();
+            if (player == null)
+            {
+                player = GameObject.FindGameObjectWithTag("Player").transform;
+            }
         }
 
         void Update()
         {
-            if (Input.GetKeyDown(KeyCode.W))
+            if (isRunningAway)
             {
-                animator.Play(walkForwardAnimation);
+                RunAway();
             }
-            else if (Input.GetKeyDown(KeyCode.S))
+            else
             {
-                animator.Play(walkBackwardAnimation);
+                DetectPlayer();
             }
-            else if (Input.GetKeyDown(KeyCode.Alpha1))
+        }
+
+        void DetectPlayer()
+        {
+            if (player == null) return;
+
+            float distanceToPlayer = Vector3.Distance(transform.position, player.position);
+            if (distanceToPlayer < detectionRadius)
             {
+                StartRunningAway();
+            }
+        }
+
+        void StartRunningAway()
+        {
+            isRunningAway = true;
+            runTimer = runDuration;
+            Vector3 runDirection = (transform.position - player.position).normalized;
+            Vector3 runTarget = transform.position + runDirection * 10f;
+
+            if (Physics.Raycast(transform.position, runDirection, 5f, obstacleMask))
+            {
+                runDirection = Quaternion.Euler(0, 90, 0) * runDirection;
+                runTarget = transform.position + runDirection * 10f;
+            }
+
+            if (NavMesh.SamplePosition(runTarget, out NavMeshHit hit, 10f, NavMesh.AllAreas))
+            {
+                agent.SetDestination(hit.position);
                 animator.Play(runForwardAnimation);
             }
-            else if (Input.GetKeyDown(KeyCode.A))
+        }
+
+        void RunAway()
+        {
+            float distanceFromPlayer = Vector3.Distance(transform.position, player.position);
+            if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance || distanceFromPlayer >= stopDistance)
             {
-                animator.Play(turn90LAnimation);
-            }
-            else if (Input.GetKeyDown(KeyCode.D))
-            {
-                animator.Play(turn90RAnimation);
-            }
-            else if (Input.GetKeyDown(KeyCode.Alpha2))
-            {
-                animator.Play(trotAnimation);
-            }
-            else if (Input.GetKeyDown(KeyCode.Alpha4))
-            {
-                animator.Play(sittostandAnimation);
-            }
-            else if (Input.GetKeyDown(KeyCode.Alpha3))
-            {
-                animator.Play(standtositAnimation);
+                isRunningAway = false;
+                agent.ResetPath(); // D?ng di chuy?n
+                animator.Play(idleAnimation); // Chuy?n v? tr?ng thái idle
             }
         }
     }
