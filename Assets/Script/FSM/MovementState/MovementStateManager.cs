@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using TMPro;
+using Unity.Cinemachine;
 
 public class MovementStateManager : MonoBehaviour
 {
@@ -42,11 +43,17 @@ public class MovementStateManager : MonoBehaviour
     private float fps = 0.0f;
 
     public StatsManager statsManager;
+    public WeaponState weaponState;
+    public PlayerShoot playerShoot;
+
+    public CinemachineOrbitalFollow orbitalTransposer;
 
     void Start()
     {
         animator = GetComponent<Animator>();
         statsManager = FindAnyObjectByType<StatsManager>();
+        weaponState = FindAnyObjectByType<WeaponState>();
+        playerShoot = FindAnyObjectByType<PlayerShoot>();
         SwitchState(Idle);
         // ẨN CHUỘT TRONG QUÁ TRÌNH CHƠI
         Cursor.lockState = CursorLockMode.Locked; 

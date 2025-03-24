@@ -4,6 +4,7 @@ public class BowShotState : MovementBaseState
     public override void EnterState(MovementStateManager movement)
     {
         movement.animator.Play("BowShot");
+        movement.orbitalTransposer.VerticalAxis.Range = new Vector2(10f, 40f);
     }
     public override void UpdateState(MovementStateManager movement)
     {
@@ -16,7 +17,7 @@ public class BowShotState : MovementBaseState
             }
         }
         else
-        { 
+        {
             movement.animator.speed = 1;
         }
         if (movement.animator.GetCurrentAnimatorStateInfo(0).IsName("BowShot") && movement.animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.95f)
@@ -27,5 +28,6 @@ public class BowShotState : MovementBaseState
     public override void ExitState(MovementStateManager movement, MovementBaseState state)
     {
         movement.SwitchState(state);
+        movement.orbitalTransposer.VerticalAxis.Range = new Vector2(10f, 60f);
     }
 }
