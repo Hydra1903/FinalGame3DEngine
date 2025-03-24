@@ -13,6 +13,7 @@ public class MovementStateManager : MonoBehaviour
     public float horizontal;
     public float vertical;
 
+    private bool canMove = true;
     public float moveSpeed = 5f;
     public float rotationSpeed = 700f;
     public Transform cameraTransform;
@@ -91,12 +92,15 @@ public class MovementStateManager : MonoBehaviour
     // HÀM DI CHUYỂN NHÂN VẬT
     public void Move(float Speed)
     {
-        Vector3 forward = cameraTransform.forward;
-        Vector3 right = cameraTransform.right;
-        forward.y = 0;
-        right.y = 0;
-        moveDirection = (forward * vertical + right * horizontal).normalized * moveSpeed * Speed;
-        controller.Move(moveDirection * Time.deltaTime);
+        if (canMove)
+        {
+            Vector3 forward = cameraTransform.forward;
+            Vector3 right = cameraTransform.right;
+            forward.y = 0;
+            right.y = 0;
+            moveDirection = (forward * vertical + right * horizontal).normalized * moveSpeed * Speed;
+            controller.Move(moveDirection * Time.deltaTime);
+        }
     }
     // HÀM XOAY NHÂN VẬT KHI DI CHUYỂN
     void Rotate()
@@ -134,6 +138,15 @@ public class MovementStateManager : MonoBehaviour
             velocity.y = -2;
         }
         controller.Move(velocity * Time.deltaTime);
+    }
+    public void DisableMovement()
+    {
+        canMove = false; // Vô hiệu hóa di chuyển
+    }
+
+    public void EnableMovement()
+    {
+        canMove = true; // Bật lại di chuyển
     }
     // KIỂM TRA QUÁ TRÌNH NHẢY
     void OFFJump()
