@@ -13,7 +13,7 @@ public class MovementStateManager : MonoBehaviour
     public float horizontal;
     public float vertical;
 
-    private bool canMove = true;
+    public bool canMove = true;
     public float moveSpeed = 5f;
     public float rotationSpeed = 700f;
     public Transform cameraTransform;
