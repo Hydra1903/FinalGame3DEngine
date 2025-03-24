@@ -48,17 +48,16 @@ public class MovementStateManager : MonoBehaviour
 
     public CinemachineOrbitalFollow orbitalTransposer;
 
+    private GameManager gameManager;
+
     void Start()
     {
         animator = GetComponent<Animator>();
         statsManager = FindAnyObjectByType<StatsManager>();
         weaponState = FindAnyObjectByType<WeaponState>();
         playerShoot = FindAnyObjectByType<PlayerShoot>();
+        gameManager = FindAnyObjectByType<GameManager>();
         SwitchState(Idle);
-        // ẨN CHUỘT TRONG QUÁ TRÌNH CHƠI
-        Cursor.lockState = CursorLockMode.Locked; 
-        Cursor.visible = false;
-
         // CẬP NHẬT FPS SAU 0.5S
         InvokeRepeating(nameof(UpdateFPSDisplay), 0, 0.5f);
     }
@@ -76,14 +75,16 @@ public class MovementStateManager : MonoBehaviour
 
     void Update()
     {
-        isGrounded = IsGrounded();
-        horizontal = Input.GetAxis("Horizontal");
-        vertical = Input.GetAxis("Vertical");
-        Rotate();
-        Gravity();
-        // DÒNG GỌI UPDATE CỦA TỪNG TRẠNG THÁI
-        currentState.UpdateState(this);
-
+        if (gameManager.currentState == GameState.Lobby)
+        {
+            isGrounded = IsGrounded();
+            horizontal = Input.GetAxis("Horizontal");
+            vertical = Input.GetAxis("Vertical");
+            Rotate();
+            Gravity();
+            // DÒNG GỌI UPDATE CỦA TỪNG TRẠNG THÁI
+            currentState.UpdateState(this);
+        }
         // TÍNH TOÁN FPS
         deltaTime += (Time.deltaTime - deltaTime) * 0.1f;
         fps = 1.0f / deltaTime;
