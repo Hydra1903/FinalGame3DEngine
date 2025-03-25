@@ -23,6 +23,7 @@ public class SoundManager : MonoBehaviour
     void Update()
     {
         audioMusic.volume = uiManager.sliderMusic.value;
+        audioMusic2.volume = uiManager.sliderMusic.value;
         audioSfx.volume = uiManager.sliderSFX.value;
         audioMove.volume = uiManager.sliderSFX.value;
     }

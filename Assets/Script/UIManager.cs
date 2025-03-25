@@ -58,14 +58,33 @@ public class UIManager : MonoBehaviour
     public Slider sliderMusic;
     public Slider sliderSFX;
     public Slider sliderCameraSpeed;
-    public Slider sliderPOV;
+    public Slider sliderFOV;
 
     public void ChangeState(UIState newState)
     {
         currentState = newState;
     }
+    // LƯU NGÔN NGỮ TRƯỚC KHI THOÁT GAME
+    
+    void OnApplicationQuit()
+    {
+        PlayerPrefs.SetFloat("Music", sliderMusic.value);
+        PlayerPrefs.SetFloat("SFX", sliderSFX.value);
+        PlayerPrefs.SetFloat("CameraSpeed", sliderCameraSpeed.value);
+        PlayerPrefs.SetFloat("FOV", sliderFOV.value);
+        PlayerPrefs.Save();
+    }
+    
     void Start()
     {
+        LocalizationManager.Language = PlayerPrefs.GetString("Language", "Vietnamese");
+        UpdateUIText();
+
+        sliderMusic.value = PlayerPrefs.GetFloat("Music",50);
+        sliderSFX.value = PlayerPrefs.GetFloat("SFX", 50);
+        sliderCameraSpeed.value = PlayerPrefs.GetFloat("CameraSpeed", 50);
+        sliderFOV.value = PlayerPrefs.GetFloat("FOV", 60);
+
         statsManager = FindAnyObjectByType<StatsManager>();
         gameManager = FindAnyObjectByType<GameManager>();
         movementStateManager = FindAnyObjectByType<MovementStateManager>();
@@ -98,18 +117,20 @@ public class UIManager : MonoBehaviour
     void LanguageEnglish()
     {
         LocalizationManager.Language = "English";
+        PlayerPrefs.SetString("Language", "English");
+        PlayerPrefs.Save();
         UpdateUIText();
-        Debug.Log("Tieng anh");
     }
     void LanguageVietnamese()
     {
         LocalizationManager.Language = "Vietnamese";
+        PlayerPrefs.SetString("Language", "Vietnamese");
+        PlayerPrefs.Save();
         UpdateUIText();
-        Debug.Log("Tieng viet");
     }
     void Update()
     {
-        Debug.Log(currentState);
+        Debug.Log(PlayerPrefs.GetString("Language", "Chưa có"));
         if (Input.GetKeyDown(KeyCode.Escape) && currentState == UIState.Default)
         {
             OnUISetting();
@@ -141,7 +162,7 @@ public class UIManager : MonoBehaviour
         valueSFX.text = ((int)(sliderSFX.value * 100f)).ToString() + "%";
         valueCameraSpeed.text = ((int)(sliderCameraSpeed.value * 100f)).ToString() + "%";
 
-        movementStateManager.Camera.fieldOfView = sliderPOV.value;
+        movementStateManager.Camera.fieldOfView = sliderFOV.value;
 
         Color color = textClickToStart.color;
         color.a = Mathf.Lerp(0.05f, 1f, Mathf.PingPong(Time.time * 1f, 1));
