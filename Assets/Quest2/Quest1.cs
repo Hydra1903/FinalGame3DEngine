@@ -23,9 +23,12 @@ public class Quest1 : MonoBehaviour
     void Start()
     {
         UpdateMoneyText();
-        questButton1.onClick.AddListener(() => ReceiveQuest(1, "Nhi?m v?: Tiêu di?t 5 quái v?t", 5, 100));
-        questButton2.onClick.AddListener(() => ReceiveQuest(2, "Nhi?m v?: Thu th?p 3 viên ðá qu?", 3, 150));
-        questButton3.onClick.AddListener(() => ReceiveQuest(3, "Nhi?m v?: Giúp ð? dân làng", 1, 200));
+        questButton1.onClick.AddListener(() => ReceiveQuest(1, "Quest 1 Kill: 5 Goat", 5, 100, questButton1));
+        questButton2.onClick.AddListener(() => ReceiveQuest(2, "Quest 2 Kill: 10 Sheep", 10, 200, questButton2));
+        questButton3.onClick.AddListener(() => ReceiveQuest(3, "Quest 3 Kill: 1 Bear", 1, 1000, questButton3));
+
+        questButton2.gameObject.SetActive(false); // ?n nhi?m v? 2 ban ð?u
+        questButton3.gameObject.SetActive(false); // ?n nhi?m v? 3 ban ð?u
     }
 
     void Update()
@@ -55,13 +58,15 @@ public class Quest1 : MonoBehaviour
         }
     }
 
-    void ReceiveQuest(int questID, string description, int requiredAmount, int reward)
+
+    void ReceiveQuest(int questID, string description, int requiredAmount, int reward, Button questButton)
     {
         if (!activeQuests.ContainsKey(questID)) // Ch? thêm nhi?m v? n?u chýa nh?n
         {
             activeQuests[questID] = (description, 0, requiredAmount, reward);
             UpdateQuestText();
             Debug.Log("Nh?n nhi?m v?: " + description);
+            questButton.gameObject.SetActive(false); // ?n nút nh?n nhi?m v?
         }
         ToggleQuestPanel(false); // Ðóng b?ng sau khi nh?n nhi?m v?
     }
@@ -96,6 +101,9 @@ public class Quest1 : MonoBehaviour
             Debug.Log("Hoàn thành nhi?m v?: " + quest.description + " - Nh?n " + quest.reward + " ti?n!");
             activeQuests.Remove(questID);
             UpdateQuestText();
+
+            if (questID == 1) questButton2.gameObject.SetActive(true);
+            if (questID == 2) questButton3.gameObject.SetActive(true);
         }
     }
 
