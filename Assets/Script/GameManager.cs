@@ -41,6 +41,7 @@ public class GameManager : MonoBehaviour
                     Cursor.visible = false;
                     ChangeState(GameState.Lobby);
                     controllerCamera.enabled = true;
+                    animator.Play("Defause");
                 }
                 break;
             case GameState.Lobby:

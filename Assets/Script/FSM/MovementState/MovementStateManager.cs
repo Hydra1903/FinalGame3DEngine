@@ -47,6 +47,7 @@ public class MovementStateManager : MonoBehaviour
     public PlayerShoot playerShoot;
 
     public CinemachineOrbitalFollow orbitalTransposer;
+    public Camera Camera;
 
     private GameManager gameManager;
 
