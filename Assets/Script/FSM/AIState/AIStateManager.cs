@@ -50,5 +50,12 @@ public class AIStateManager : MonoBehaviour
                 Debug.Log("Không tìm thấy vị trí hợp lệ để chạy!");
             }
         }
+        if (!agent.isOnNavMesh)
+        {
+            Debug.LogError("AI KHÔNG nằm trên NavMesh!");
+        }
+        Debug.Log("Destination: " + agent.destination);
+        Debug.Log("Velocity: " + agent.velocity + " | isStopped: " + agent.isStopped);
+        Debug.Log("Remaining Distance: " + agent.remainingDistance + " | Path Status: " + agent.pathStatus);
     }
 }
