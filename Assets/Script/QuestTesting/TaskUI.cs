@@ -19,6 +19,7 @@ public class TaskUI : MonoBehaviour
 
        
         acceptButton.onClick.AddListener(AcceptTask);
+        Debug.Log("Button is pressed1");
     }
 
     // Khi ng??i ch?i nh?n nhi?m v?

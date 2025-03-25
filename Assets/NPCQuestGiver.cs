@@ -4,7 +4,6 @@ public class NPCInteraction : MonoBehaviour
     public GameObject taskUI; // UI bảng nhiệm vụ
 
     // Reference đến CameraControl script
-    public MovementStateManager playermove;
 
     private bool playerInRange = false; // Kiểm tra người chơi có ở gần NPC không
 
@@ -41,12 +40,12 @@ public class NPCInteraction : MonoBehaviour
     void ShowTaskUI()
     {
         taskUI.SetActive(true);
-        playermove.canMove = false;// Bật UI bảng nhiệm vụ
+        
     }
 
     void HideTaskUI()
     {
         taskUI.SetActive(false); // Ẩn UI bảng nhiệm vụ
-        playermove.canMove = true;
+       
     }
 }
