@@ -14,7 +14,7 @@ public class Arrow : MonoBehaviour
         Destroy(gameObject, lifetime); 
     }
 
-    void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Enemy")) 
         {
