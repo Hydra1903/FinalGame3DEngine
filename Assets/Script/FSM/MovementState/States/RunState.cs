@@ -1,9 +1,11 @@
-using UnityEngine;
+﻿using UnityEngine;
 public class RunState : MovementBaseState
 {
     public override void EnterState(MovementStateManager movement)
     {
         movement.animator.Play("RunN");
+        movement.soundManager.audioMove.clip = movement.soundManager.Run;
+        movement.soundManager.audioMove.Play();
     }
     public override void UpdateState(MovementStateManager movement)
     {
@@ -20,7 +22,7 @@ public class RunState : MovementBaseState
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                ExitState(movement, movement.JumpRuning);
+                ExitState(movement, movement.JumpRuning);;
             }
         }
         if (Input.GetMouseButtonDown(1))

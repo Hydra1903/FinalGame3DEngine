@@ -50,6 +50,7 @@ public class MovementStateManager : MonoBehaviour
     public Camera Camera;
 
     private GameManager gameManager;
+    public SoundManager soundManager;
 
     void Start()
     {
@@ -65,8 +66,11 @@ public class MovementStateManager : MonoBehaviour
     // SET TRẠNG THÁI
     public void SwitchState(MovementBaseState state)
     {
-        currentState = state;
-        currentState.EnterState(this);
+        if (Time.timeScale != 0)
+        {
+            currentState = state;
+            currentState.EnterState(this);
+        }
     }
     // HIỂN THỊ FPS LÊN TEXT
     void UpdateFPSDisplay()
@@ -89,6 +93,11 @@ public class MovementStateManager : MonoBehaviour
         // TÍNH TOÁN FPS
         deltaTime += (Time.deltaTime - deltaTime) * 0.1f;
         fps = 1.0f / deltaTime;
+
+        if(currentState != Walk && currentState != Run)
+        {
+            soundManager.audioMove.Pause();
+        }
     }
     // HÀM DI CHUYỂN NHÂN VẬT
     public void Move(float Speed)

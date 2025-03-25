@@ -1,10 +1,12 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class WalkState : MovementBaseState
 {
     public override void EnterState(MovementStateManager movement)
     {
         movement.animator.Play("Walk");
+        movement.soundManager.audioMove.clip = movement.soundManager.Walk;
+        movement.soundManager.audioMove.Play();
     }
     public override void UpdateState(MovementStateManager movement)
     {

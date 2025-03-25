@@ -118,15 +118,17 @@ public class UIManager : MonoBehaviour
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
             Time.timeScale = 0;
+            AudioListener.pause = true;
         }
         else if (Input.GetKeyDown(KeyCode.Escape) && currentState == UIState.Setting)
         {
             OffUISetting();
             OnUIDefault();
             currentState = UIState.Default;
-            Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
             Time.timeScale = 1f;
+            AudioListener.pause = false;
         }
         else if (currentState == UIState.Lobby)
         {

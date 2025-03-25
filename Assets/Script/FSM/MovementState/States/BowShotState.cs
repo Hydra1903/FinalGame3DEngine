@@ -5,6 +5,9 @@ public class BowShotState : MovementBaseState
     {
         movement.animator.Play("BowShot");
         movement.orbitalTransposer.VerticalAxis.Range = new Vector2(10f, 40f);
+
+        movement.soundManager.audioSfx.clip = movement.soundManager.BowShoot1;
+        movement.soundManager.audioSfx.Play();
     }
     public override void UpdateState(MovementStateManager movement)
     {
@@ -19,6 +22,8 @@ public class BowShotState : MovementBaseState
         else
         {
             movement.animator.speed = 1;
+            movement.soundManager.audioSfx.clip = movement.soundManager.BowShoot2;
+            movement.soundManager.audioSfx.Play();
         }
         if (movement.animator.GetCurrentAnimatorStateInfo(0).IsName("BowShot") && movement.animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.95f)
         {

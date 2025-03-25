@@ -4,6 +4,8 @@ public class MeleeAttack1State : MovementBaseState
     public override void EnterState(MovementStateManager movement)
     {
         movement.animator.Play("MeleeAttack1");
+        movement.soundManager.audioSfx.clip = movement.soundManager.MeleeAttack;
+        movement.soundManager.audioSfx.Play();
     }
     public override void UpdateState(MovementStateManager movement)
     {
