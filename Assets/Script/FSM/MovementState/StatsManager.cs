@@ -12,7 +12,6 @@ public class StatsManager : MonoBehaviour
     }
     void Update()
     {
-        Debug.Log(Character1.mana+"/"+ Character1.maxMana);
         if (stateManager.currentState == stateManager.Run)
         {
             ManaUsing();
