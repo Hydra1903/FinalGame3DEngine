@@ -58,4 +58,5 @@ public class AIStateManager : MonoBehaviour
         Debug.Log("Velocity: " + agent.velocity + " | isStopped: " + agent.isStopped);
         Debug.Log("Remaining Distance: " + agent.remainingDistance + " | Path Status: " + agent.pathStatus);
     }
+
 }

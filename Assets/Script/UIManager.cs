@@ -60,12 +60,14 @@ public class UIManager : MonoBehaviour
     public Slider sliderCameraSpeed;
     public Slider sliderFOV;
 
+    private Quest1 quest1;
+
     public void ChangeState(UIState newState)
     {
         currentState = newState;
     }
+
     // LƯU NGÔN NGỮ TRƯỚC KHI THOÁT GAME
-    
     void OnApplicationQuit()
     {
         PlayerPrefs.SetFloat("Music", sliderMusic.value);
@@ -88,6 +90,7 @@ public class UIManager : MonoBehaviour
         statsManager = FindAnyObjectByType<StatsManager>();
         gameManager = FindAnyObjectByType<GameManager>();
         movementStateManager = FindAnyObjectByType<MovementStateManager>();
+        quest1 = FindAnyObjectByType<Quest1>();
         ClickToStart.onClick.AddListener(ButtonClickToStart);
         currentState = UIState.Lobby;
 
@@ -113,6 +116,7 @@ public class UIManager : MonoBehaviour
         Jump.text = LocalizationManager.GetLocalizedText("Lobby.Jump");
         Attack.text = LocalizationManager.GetLocalizedText("Lobby.Attack");
         Blocking.text = LocalizationManager.GetLocalizedText("Lobby.Blocking");
+
     }
     void LanguageEnglish()
     {

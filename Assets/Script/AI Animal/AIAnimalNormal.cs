@@ -191,6 +191,7 @@ public class AIAnimalNormal : MonoBehaviour
         {
             animator.Play("Death");
             Destroy(gameObject,3);
+            
         }
 
         // Ẩn thanh máu
@@ -380,5 +381,13 @@ public class AIAnimalNormal : MonoBehaviour
         // Vẽ thanh sức khỏe (chỉ trong chế độ chọn)
         Gizmos.color = Color.red;
         Gizmos.DrawLine(transform.position, transform.position + Vector3.up * (currentHealth / maxHealth * 2f));
+    }
+    void OnDeath()
+    {
+        Quest1 npcQuest = FindObjectOfType<Quest1>();
+        if (npcQuest != null)
+        {
+            npcQuest.UpdateQuestProgress(1); // 1 là ID của nhiệm vụ tiêu diệt quái vật
+        }
     }
 }

@@ -24,6 +24,10 @@ public static class LocalizationManager
                 { "Lobby.Jump", "Jump" },
                 { "Lobby.Attack", "Attack" },
                 { "Lobby.Blocking", "Blocking" },
+                { "Quest.One", "Quest 1 Kill: 5 Goat or Sheep" },
+                { "Quest.Two", "Quest 2 Kill: 10 Goat or Sheep" },
+                { "Quest.Three", "Quest 3 Kill: 40 Goat or Sheep" },
+
             }
         },
         { "Vietnamese", new Dictionary<string, string>()
@@ -42,6 +46,9 @@ public static class LocalizationManager
                 { "Lobby.Jump", "Nhảy" },
                 { "Lobby.Attack", "Tấn công" },
                 { "Lobby.Blocking", "Chặn đòn" },
+                { "Quest.One", "Nhiệm vụ 1: Giết 5 con Dê hoặc Cừu" },
+                { "Quest.Two", "Nhiệm vụ 2: Giết 10 con Dê hoặc Cừu" },
+                { "Quest.Three", "Nhiệm vụ 3: Giết 40 con Dê hoặc Cừu" },
             }
         }
     };

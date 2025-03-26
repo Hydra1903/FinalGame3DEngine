@@ -23,9 +23,12 @@ public class Quest1 : MonoBehaviour
     void Start()
     {
         UpdateMoneyText();
-        questButton1.onClick.AddListener(() => ReceiveQuest(1, "Giết 3 con dê", 3, 100));
-        questButton2.onClick.AddListener(() => ReceiveQuest(2, "Giết 5 con cừu", 5, 150));
-        questButton3.onClick.AddListener(() => ReceiveQuest(3, "Giết 1 con gấu", 1, 200));
+        questButton1.onClick.AddListener(() => ReceiveQuest(1, "Quest 1 Kill: 5 Goat or Sheep", 5, 100, questButton1));
+        questButton2.onClick.AddListener(() => ReceiveQuest(2, "Quest 2 Kill: 10 Goat or Sheep", 10, 200, questButton2));
+        questButton3.onClick.AddListener(() => ReceiveQuest(3, "Quest 3 Kill: 40 Goat or Sheep", 40, 15000, questButton3));
+
+        questButton2.gameObject.SetActive(false); // ?n nhi?m v? 2 ban đ?u
+        questButton3.gameObject.SetActive(false); // ?n nhi?m v? 3 ban đ?u
     }
 
     void Update()
@@ -55,13 +58,15 @@ public class Quest1 : MonoBehaviour
         }
     }
 
-    void ReceiveQuest(int questID, string description, int requiredAmount, int reward)
+
+    void ReceiveQuest(int questID, string description, int requiredAmount, int reward, Button questButton)
     {
         if (!activeQuests.ContainsKey(questID)) // Ch? thêm nhi?m v? n?u chưa nh?n
         {
             activeQuests[questID] = (description, 0, requiredAmount, reward);
             UpdateQuestText();
-            Debug.Log("Nh?n nhi?m v?: " + description);
+            Debug.Log("Nhan nhiem vu: " + description);
+            questButton.gameObject.SetActive(false); // ?n nút nh?n nhi?m v?
         }
         ToggleQuestPanel(false); // Đóng b?ng sau khi nh?n nhi?m v?
     }
@@ -76,7 +81,7 @@ public class Quest1 : MonoBehaviour
                 quest.currentAmount++;
                 activeQuests[questID] = (quest.description, quest.currentAmount, quest.requiredAmount, quest.reward);
                 UpdateQuestText();
-                Debug.Log("Ti?n đ? nhi?m v?: " + quest.description + " - " + quest.currentAmount + "/" + quest.requiredAmount);
+                Debug.Log("Tien đo nhiem vu: " + quest.description + " - " + quest.currentAmount + "/" + quest.requiredAmount);
 
                 if (quest.currentAmount >= quest.requiredAmount)
                 {
@@ -93,9 +98,12 @@ public class Quest1 : MonoBehaviour
             var quest = activeQuests[questID];
             playerMoney += quest.reward;
             UpdateMoneyText();
-            Debug.Log("Hoàn thành nhi?m v?: " + quest.description + " - Nh?n " + quest.reward + " ti?n!");
+            Debug.Log("Hoàn thành nhiem vu: " + quest.description + " - Nhan " + quest.reward + " tien!");
             activeQuests.Remove(questID);
             UpdateQuestText();
+
+            if (questID == 1) questButton2.gameObject.SetActive(true);
+            if (questID == 2) questButton3.gameObject.SetActive(true);
         }
     }
 
