@@ -65,7 +65,7 @@ public class Quest1 : MonoBehaviour
         {
             activeQuests[questID] = (description, 0, requiredAmount, reward);
             UpdateQuestText();
-            Debug.Log("Nh?n nhi?m v?: " + description);
+            Debug.Log("Nhan nhiem vu: " + description);
             questButton.gameObject.SetActive(false); // ?n nút nh?n nhi?m v?
         }
         ToggleQuestPanel(false); // Ðóng b?ng sau khi nh?n nhi?m v?
@@ -81,7 +81,7 @@ public class Quest1 : MonoBehaviour
                 quest.currentAmount++;
                 activeQuests[questID] = (quest.description, quest.currentAmount, quest.requiredAmount, quest.reward);
                 UpdateQuestText();
-                Debug.Log("Ti?n ð? nhi?m v?: " + quest.description + " - " + quest.currentAmount + "/" + quest.requiredAmount);
+                Debug.Log("Tien ðo nhiem vu: " + quest.description + " - " + quest.currentAmount + "/" + quest.requiredAmount);
 
                 if (quest.currentAmount >= quest.requiredAmount)
                 {
@@ -98,7 +98,7 @@ public class Quest1 : MonoBehaviour
             var quest = activeQuests[questID];
             playerMoney += quest.reward;
             UpdateMoneyText();
-            Debug.Log("Hoàn thành nhi?m v?: " + quest.description + " - Nh?n " + quest.reward + " ti?n!");
+            Debug.Log("Hoàn thành nhiem vu: " + quest.description + " - Nhan " + quest.reward + " tien!");
             activeQuests.Remove(questID);
             UpdateQuestText();
 
@@ -119,7 +119,7 @@ public class Quest1 : MonoBehaviour
 
     void UpdateMoneyText()
     {
-        moneyText.text = "Ti?n: " + playerMoney;
+        moneyText.text = " " + playerMoney;
     }
 
     private void OnTriggerEnter(Collider other)
